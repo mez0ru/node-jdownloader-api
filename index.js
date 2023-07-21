@@ -223,6 +223,7 @@ exports.addLinks = (links, deviceId, autostart, packageName = undefined, destina
   const temp = JSON.parse(paramsTemp);
   Object.assign(temp, { destinationFolder });
   const params = JSON.stringify(temp);
+  console.log(params)
   return new Promise((resolve, rejected) => {
     callAction('/linkgrabberv2/addLinks', deviceId, [params])
       .then((val) => {
