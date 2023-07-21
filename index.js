@@ -219,7 +219,7 @@ exports.getDirectConnectionInfos = deviceId => new Promise((resolve, rejected) =
 
 exports.addLinks = (links, deviceId, autostart, packageName = undefined) => {
   const packageNameParam = packageName ? `,"packageName":"${packageName}"` : '';
-  const params = `{"priority":"DEFAULT"${destinationParam},"links":"${links}","autostart":${autostart}${packageNameParam}}`;
+  const params = `{"priority":"DEFAULT","links":"${links}","autostart":${autostart}${packageNameParam}}`;
   return new Promise((resolve, rejected) => {
     callAction('/linkgrabberv2/addLinks', deviceId, [params])
       .then((val) => {
