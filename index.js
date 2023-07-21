@@ -217,9 +217,10 @@ exports.getDirectConnectionInfos = deviceId => new Promise((resolve, rejected) =
     });
 });
 
-exports.addLinks = (links, deviceId, autostart, packageName = null) => {
-  const packageNameParam = packageName !== null ? `,"packageName": "${packageName}"` : '' ;
-  const params = `{"priority":"DEFAULT","links":"${links}","autostart":${autostart}${packageNameParam}}`;
+exports.addLinks = (links, deviceId, autostart, packageName = undefined, destinationFolder = undefined) => {
+  const packageNameParam = packageName ? `,"packageName": "${packageName}"` : '';
+  const destinationParam = destinationFolder ? `,"destinationFolder": "${destinationFolder}"` : '';
+  const params = `{"priority":"DEFAULT","links":"${links}","autostart":${autostart}${packageNameParam}${destinationParam}}`;
   return new Promise((resolve, rejected) => {
     callAction('/linkgrabberv2/addLinks', deviceId, [params])
       .then((val) => {
@@ -282,13 +283,13 @@ exports.queryPackages = (deviceId, packagesIds) => {
 };
 
 exports.cleanUpFinishedLinks = (deviceId) => {
-    const params =  ["[]", "[]", "DELETE_FINISHED", "REMOVE_LINKS_ONLY", "ALL"];
-    return new Promise((resolve, rejected) => {
-        callAction('/downloadsV2/cleanup', deviceId, params)
-          .then((val) => {
-            resolve(val);
-          }).catch((error) => {
-            rejected(error);
-          });
+  const params = ["[]", "[]", "DELETE_FINISHED", "REMOVE_LINKS_ONLY", "ALL"];
+  return new Promise((resolve, rejected) => {
+    callAction('/downloadsV2/cleanup', deviceId, params)
+      .then((val) => {
+        resolve(val);
+      }).catch((error) => {
+        rejected(error);
       });
+  });
 };
