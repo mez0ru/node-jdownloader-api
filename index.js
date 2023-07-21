@@ -267,7 +267,7 @@ exports.queryLinks = (deviceId) => {
 
 exports.queryPackages = (deviceId, packagesIds = null) => {
   //params see https://my.jdownloader.org/developers/#tag_144
-  const packageUUIDs = packageUUIDs ? `,"packageUUIDs":[${packagesIds}]` : '';
+  const packageUUIDs = packagesIds ? `,"packageUUIDs":[${packagesIds}]` : '';
   const params = `{
     "bytesLoaded"  : true,
     "bytesTotal"   : true,
