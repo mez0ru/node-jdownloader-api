@@ -265,8 +265,9 @@ exports.queryLinks = (deviceId) => {
   });
 };
 
-exports.queryPackages = (deviceId, packagesIds) => {
+exports.queryPackages = (deviceId, packagesIds = null) => {
   //params see https://my.jdownloader.org/developers/#tag_144
+  const packageUUIDs = packageUUIDs ? `,"packageUUIDs":[${packagesIds}]` : '';
   const params = `{
     "bytesLoaded"  : true,
     "bytesTotal"   : true,
@@ -280,8 +281,7 @@ exports.queryPackages = (deviceId, packagesIds) => {
     "running"      : true,
     "saveTo"       : true,
     "speed"        : true,
-    "status"       : true,
-    "packageUUIDs" : [${packagesIds}]}`;
+    "status"       : true${packageUUIDs}}`;
   return new Promise((resolve, rejected) => {
     callAction('/downloadsV2/queryPackages', deviceId, [params])
       .then((val) => {
