@@ -217,12 +217,22 @@ exports.getDirectConnectionInfos = deviceId => new Promise((resolve, rejected) =
     });
 });
 
-exports.addLinks = (links, deviceId, autostart, packageName = undefined, destinationFolder = undefined) => {
+exports.addLinks = (links, deviceId, autostart, packageName = undefined) => {
   const packageNameParam = packageName ? `,"packageName":"${packageName}"` : '';
-  const destinationParam = destinationFolder ? `,"destinationFolder":"${destinationFolder}"` : '';
   const params = `{"priority":"DEFAULT"${destinationParam},"links":"${links}","autostart":${autostart}${packageNameParam}}`;
   return new Promise((resolve, rejected) => {
     callAction('/linkgrabberv2/addLinks', deviceId, [params])
+      .then((val) => {
+        resolve(val);
+      }).catch((error) => {
+        rejected(error);
+      });
+  });
+};
+
+exports.setDownloadPath = (directory, packageIds) => {
+  return new Promise((resolve, rejected) => {
+    callAction('/linkgrabberv2/setDownloadDirectory', deviceId, [{ directory, packageIds }])
       .then((val) => {
         resolve(val);
       }).catch((error) => {
